@@ -1,14 +1,14 @@
 import React from 'react';
 
 import * as C from './style';
+import { FaBusinessTime } from 'react-icons/fa';
 
-import LoginText from './components/LoginText/index';
 import LoginForm from './components/LoginForm/index';
 
 const Login = () => {
   return (
     <C.MainContainer>
-      <LoginText />
+      <C.MainTitle>React Business <FaBusinessTime /></C.MainTitle>
       <LoginForm />
     </C.MainContainer>
   );
