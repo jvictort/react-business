@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const FormContainer = styled.form`
-  width: 30%;
+  // width: 30%;
   padding: 1em;
   background: linear-gradient(rgba(0,0,0,.9),rgba(0,0,0,.9));
   // border: 1px solid #0179c6;

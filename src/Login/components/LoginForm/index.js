@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import * as C from './style';
 
@@ -9,19 +9,25 @@ import {
 } from 'react-icons/fa';
 
 const LoginForm = () => {
+  const [isLoginForm, setLoginForm] = useState(false);
+
   return (
     <C.FormContainer>
       <C.FormFieldset>
-        <C.FormLegend>Cadastro</C.FormLegend>
+        <C.FormLegend>
+          {!isLoginForm ? "Cadastro" : "Login"}
+        </C.FormLegend>
 
-        <C.InputContainer>
-          <FaUserAlt />
+        {!isLoginForm ? (
+          <C.InputContainer>
+            <FaUserAlt />
 
-          <C.FormInput
-            placeholder="Nome"
-            required
-          />
-        </C.InputContainer>
+            <C.FormInput
+              placeholder="Nome"
+              required
+            />
+          </C.InputContainer>
+        ) : null}
 
         <C.InputContainer>
           <FaMailBulk />
@@ -42,18 +48,26 @@ const LoginForm = () => {
           />
         </C.InputContainer>
 
-        <C.InputContainer>
-          <FaLock />
+        {!isLoginForm ? (
+          <C.InputContainer>
+            <FaLock />
 
-          <C.FormInput
-            placeholder="Reinsira a senha"
-            type="password"
-          />
-        </C.InputContainer>
+            <C.FormInput
+              placeholder="Reinsira a senha"
+              type="password"
+            />
+          </C.InputContainer>
+        ) : null}
 
-        <C.FormOption>Já possui uma conta? Faça login clicando <span>aqui</span></C.FormOption>
+        {!isLoginForm ? (
+          <C.FormOption>Já possui uma conta? Faça login clicando <span onClick={() => setLoginForm(true)}>aqui</span></C.FormOption>
+        ) : (
+          <C.FormOption>Não possui uma conta? Crie uma clicando <span onClick={() => setLoginForm(false)}>aqui</span></C.FormOption>
+        )}
 
-        <C.FormButton type="submit">Criar conta</C.FormButton>
+        <C.FormButton type="submit">
+          {!isLoginForm ? "Criar conta" : "Fazer login"}
+        </C.FormButton>
       </C.FormFieldset>
     </C.FormContainer>
   );
