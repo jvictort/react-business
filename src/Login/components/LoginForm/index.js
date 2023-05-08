@@ -3,31 +3,22 @@ import React, { useState } from 'react';
 import * as C from './style';
 
 import {
-  FaUserAlt,
   FaMailBulk,
   FaLock
 } from 'react-icons/fa';
 
-const LoginForm = () => {
-  const [isLoginForm, setLoginForm] = useState(false);
+const LoginForm = ({ setLoginForm }) => {
+  const [userEmail, setUserEmail] = useState('');
+  const [userPassword, setUserPassword] = useState('');
+
+  const handleSubmit = event => {
+    event.preventDefault();
+  }
 
   return (
-    <C.FormContainer>
+    <C.FormContainer onSubmit={handleSubmit}>
       <C.FormFieldset>
-        <C.FormLegend>
-          {!isLoginForm ? "Cadastro" : "Login"}
-        </C.FormLegend>
-
-        {!isLoginForm ? (
-          <C.InputContainer>
-            <FaUserAlt />
-
-            <C.FormInput
-              placeholder="Nome"
-              required
-            />
-          </C.InputContainer>
-        ) : null}
+        <C.FormLegend>Login</C.FormLegend>
 
         <C.InputContainer>
           <FaMailBulk />
@@ -36,6 +27,7 @@ const LoginForm = () => {
             placeholder="Email"
             type="email"
             required
+            onChange={event => setUserEmail(event.target.value)}
           />
         </C.InputContainer>
 
@@ -45,29 +37,15 @@ const LoginForm = () => {
           <C.FormInput
             placeholder="Senha"
             type="password"
+            onChange={event => setUserPassword(event.target.value)}
           />
         </C.InputContainer>
 
-        {!isLoginForm ? (
-          <C.InputContainer>
-            <FaLock />
+        <C.FormOption>
+          Não possui uma conta? Crie uma clicando
+          <span onClick={() => setLoginForm(false)}> aqui </span></C.FormOption>
 
-            <C.FormInput
-              placeholder="Reinsira a senha"
-              type="password"
-            />
-          </C.InputContainer>
-        ) : null}
-
-        {!isLoginForm ? (
-          <C.FormOption>Já possui uma conta? Faça login clicando <span onClick={() => setLoginForm(true)}>aqui</span></C.FormOption>
-        ) : (
-          <C.FormOption>Não possui uma conta? Crie uma clicando <span onClick={() => setLoginForm(false)}>aqui</span></C.FormOption>
-        )}
-
-        <C.FormButton type="submit">
-          {!isLoginForm ? "Criar conta" : "Fazer login"}
-        </C.FormButton>
+        <C.FormButton type="submit">Fazer login</C.FormButton>
       </C.FormFieldset>
     </C.FormContainer>
   );

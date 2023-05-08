@@ -1,10 +1,8 @@
 import styled from 'styled-components';
 
 export const FormContainer = styled.form`
-  // width: 30%;
   padding: 1em;
   background: linear-gradient(rgba(0,0,0,.9),rgba(0,0,0,.9));
-  // border: 1px solid #0179c6;
   border-radius: 0.3em;
 `;
 
@@ -46,6 +44,13 @@ export const FormInput = styled.input`
   border: none;
   color: white;
   outline: none;
+`;
+
+export const ValidPassword = styled.p`
+  font-size: 0.8em;
+  text-align: center;
+  color: ${(props) => props.color};
+  margin-top: 0.3em;
 `;
 
 export const FormOption = styled.p`
