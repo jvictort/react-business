@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 const User = require('../models/User');
 
 const addUser = (req, res) => {
@@ -26,6 +28,52 @@ const addUser = (req, res) => {
   }
 }
 
+const loginUser = (req, res) => {
+  const requestBody = req.body;
+
+  User.findOne({
+    where: {
+      userEmail: requestBody.userEmail
+    }
+  })
+  .then(user => {
+    if(!user) {
+      return res.status(401).send({
+        status: 'error',
+        message: 'Ocorreu um erro. Email ou senha incorretas.',
+        data: null
+      });
+    }
+
+    if(user.userPassword !== requestBody.userPassword) {
+      return res.status(401).send({
+        status: 'error',
+        message: 'Ocorreu um erro. Email ou senha incorretas.',
+        data: null
+      });
+    }
+
+    const token = jwt.sign(
+      {
+        id: user.id,
+        name: user.userName,
+        email: user.userEmail
+      },
+      '%JRe25#32$%',
+      {
+        expiresIn: '24h'
+      }
+    );
+
+    return res.status(200).send({
+      status: 'success',
+      message: 'Ocorreu um erro. Não existe um usuário com este email.',
+      data: token
+    });
+  });
+}
+
 module.exports = {
-  add: addUser
+  add: addUser,
+  login: loginUser
 }
