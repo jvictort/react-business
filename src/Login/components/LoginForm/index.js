@@ -7,12 +7,28 @@ import {
   FaLock
 } from 'react-icons/fa';
 
-const LoginForm = ({ setLoginForm }) => {
+const LoginForm = ({ setLoginForm, url }) => {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
 
   const handleSubmit = event => {
     event.preventDefault();
+
+    const user = {
+      userEmail,
+      userPassword
+    }
+
+    fetch(url + '/user/login', {
+      method: 'POST',
+      mode: 'cors',
+      body: JSON.stringify(user),
+      headers: {
+        "Content-Type": "application/json",
+      }
+    })
+    .then(response => response.json())
+    .then(response => console.log(response));
   }
 
   return (
