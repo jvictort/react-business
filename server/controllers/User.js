@@ -1,15 +1,21 @@
+const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
 
+require('dotenv/config');
+
 const addUser = (req, res) => {
   const requestBody = req.body;
+
+  const salt = bcrypt.genSaltSync(10);
+  const passwordHash = bcrypt.hashSync(requestBody.userPassword, salt);
 
   if(requestBody.userPassword === requestBody.repeatedPassword) {
     User.create({
       userName: requestBody.userName,
       userEmail: requestBody.userEmail,
-      userPassword: requestBody.userPassword
+      userPassword: passwordHash
     })
     .then(() => {
       res.status(200).send({
@@ -19,6 +25,7 @@ const addUser = (req, res) => {
       });
     })
     .catch(error => {
+      console.log(error);
       res.status(400).send({
         status: 'error',
         message: 'Ocorreu um erro. Não foi possível cadastrar este usuário.',
@@ -45,7 +52,7 @@ const loginUser = (req, res) => {
       });
     }
 
-    if(user.userPassword !== requestBody.userPassword) {
+    if(!(bcrypt.compareSync(requestBody.userPassword, user.userPassword))) {
       return res.status(401).send({
         status: 'error',
         message: 'Ocorreu um erro. Email ou senha incorretas.',
@@ -59,7 +66,7 @@ const loginUser = (req, res) => {
         name: user.userName,
         email: user.userEmail
       },
-      '%JRe25#32$%',
+      process.env.JWT_KEY,
       {
         expiresIn: '24h'
       }
@@ -67,7 +74,7 @@ const loginUser = (req, res) => {
 
     return res.status(200).send({
       status: 'success',
-      message: 'Ocorreu um erro. Não existe um usuário com este email.',
+      message: 'Login realizado com sucesso.',
       data: token
     });
   });
