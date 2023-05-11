@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+import UserFlashMessage from '../UserFlashMessage/index';
+
 import * as C from './style';
 
 import {
@@ -8,7 +10,7 @@ import {
   FaLock
 } from 'react-icons/fa';
 
-const RegisterForm = ({ setLoginForm, url }) => {
+const RegisterForm = ({ setShowMessage, setLoginForm, url }) => {
   const [userName, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
@@ -17,7 +19,7 @@ const RegisterForm = ({ setLoginForm, url }) => {
 
   useEffect(() => {
     setValidPassword(userPassword === repeatedPassword ? true : false);
-  }, [userPassword, repeatedPassword])
+  }, [userPassword, repeatedPassword]);
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -40,7 +42,8 @@ const RegisterForm = ({ setLoginForm, url }) => {
       })
       .then(response => response.json())
       .then(response => {
-        console.log(response);
+        setShowMessage(true);
+        setLoginForm(true);
       });
     }
   }

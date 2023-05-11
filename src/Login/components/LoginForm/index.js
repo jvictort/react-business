@@ -7,7 +7,7 @@ import {
   FaLock
 } from 'react-icons/fa';
 
-const LoginForm = ({ setLoginForm, url }) => {
+const LoginForm = ({ setShowMessage, setLoginForm, url }) => {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
 
@@ -59,7 +59,10 @@ const LoginForm = ({ setLoginForm, url }) => {
 
         <C.FormOption>
           Não possui uma conta? Crie uma clicando
-          <span onClick={() => setLoginForm(false)}> aqui </span></C.FormOption>
+          <span onClick={() => {
+            setLoginForm(false);
+            setShowMessage(false);
+          }}> aqui </span></C.FormOption>
 
         <C.FormButton type="submit">Fazer login</C.FormButton>
       </C.FormFieldset>
